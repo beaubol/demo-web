@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+	<head>
+		<title>M2SYS BioPlugin Web Demo</title>
+		<!--Load jQuery Files-->
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.tools.js"></script>
+		<script type="text/javascript" src="js/jquery.easing.js"></script>
+		<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="js/jquery.impromptu.js"></script>
+		<!--Load Javascript File Containing BioPlugin Functions-->
+		<script type="text/javascript" src="js/bioplugin.js"></script>
+		<!--Load Site CSS-->
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<!--Load CSS3 Button CSS-->
+		<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+		<!--Load Impromptu CSS-->
+		<link rel="stylesheet" type="text/css" href="css/jquery.impromptu.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.impromptu.smooth.css" />
+	</head>
+	<body>
+		<!--Configure Tabs, Each <li></li> Will Become A Tab-->
+		<div id="NavBar">
+			<ul class="Tabs">
+				<li><a href="#">Welcome</a></li>
+				<li><a href="#">Configuration</a></li>
+				<li><a href="#">Biometrics</a></li>
+				<li><a href="#">About</a></li>
+			</ul>
+		</div>
+		<!--Permanent Sidebar - For ActiveX Display, Cancel & Server Recache-->
+		<div id="SideBar">
+			<p><img src="img/m2sys-small.jpg" width=120 /></p>
+			<object id="BioPlugInActX" width=120 height=120 classid="CLSID:05E8280C-D45A-494F-AE42-840A40444AFF"></object>
+			<p><a href="#" class="button" onclick="StopScanning()" title="Cancel Current Scan Process">Cancel Scan</a></p>
+			<p><a href="#" class="button" onclick="CancelRegistration()" title="Cancel Current Registration/Update Process">Cancel Registration</a></p>
+			<p><a href="#" class="button" onclick="ServerRecache()" title="Server Recache">Server Recache</a></p>
+			<p>Window Position
+					<select name="WindowPosition">
+						<option value="0">Center</option>
+						<option value="1">Top Left</option>
+						<option value="2">Bottom Left</option>
+						<option value="3">Bottom Right</option>
+						<option value="4">Top Right</option>
+						<option value="5">Hidden</option>
+					</select>
+			</p>
+			<p>Debug <input type="checkbox" name="debug" /></p>
+		</div>
+		<!--Configure Tab Contents, Each <div></div> Contains A Single Tab's Contents-->
+		<div class="TabContents">
+			<div id="TabWelcome">
+				<p>The M2SYS BioPlugin Web Demo is a simple website designed to help our support and development partners.</p>
+				<p>As a support technician you may choose to use this website in order to test basic functionality of our hardware and software. With this website you can query the software as well as access it's biometric features. If you can perform these functions on this website then you can confirm that it works as designed, and can focus on other factors in your diagnostic process.</p>
+				<p>As a developer you can <a href="BioPluginWebDemo.zip" title="BioPlugin Web Demo - Source">download</a> the source for this website and use it to see how simple it is to construct the basic functions you'll need in your project. Other languages will have their specific requirements, but the basic principles apply everywhere.</p>
+				<hr />
+				<p>NOTICE: This website, it's code, and any other related data is owned and controled by M2SYS Technology. We are providing it as a curtiousy, free of charge, however we still retain all rights related to the information.</p>
+				<hr />
+				<p>If you are having trouble with the website, please make sure that you've added the website to Internet Explorer's "Trusted Sites" list. Here is the <a href="http://support.microsoft.com/kb/174360" target="_blank" title="Microsoft Internet Explorer - Trusted Sites">official documentation</a> from Microsoft.
+			</div>
+			<div id="TabConfiguration">
+				<p>
+					<a href="#" class="button" onclick="ListEngineType()" title="Will Return All Supported Engine Types<hr />FP1, FP2, FV1 and/or PV1">Show Available Engines</a>
+					<a href="#" class="button" onclick="GetEngineType()" title="Will Return Current Client Engine Type<hr />FP1, FP2, FV1 or PV1">Get Engine Type</a>
+					<a href="#" class="button" onclick="SetEngineType()" title="Will Set Current Engine Type<hr />FP1, FP2, FV1 or PV1">Set Engine Type</a>
+					<input type="text" name="EngineType" size=24>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="GetServerInfo()" title="Will Return Current Server IP/Hostname and TCP Port<hr />localhost:1200">Get Server Info</a>
+					<a href="#" class="button" onclick="SetServerInfo()" title="Will Set Current Server IP/Hostname and TCP Port">Set Server Info</a>
+					<input type="text" name="ServerInfo" size=36><input type="text" name="ServerInfoPort" size=12>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="GetLocationID()" title="Will Return Current Location ID<hr />1">Get Location ID</a>
+					<a href="#" class="button" onclick="SetLocationID()" title="Will Set Current Location ID">Set Location ID</a>
+					<input type="text" name="LocationID" size=24>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="GetNoMatchFoundValue()" title="Will Return Current NoMatchFound Value<hr />000000000">Get NoMatchFound Value</a>
+					<a href="#" class="button" onclick="SetNoMatchFoundValue()" title="Will Set Current NoMatchFound Value">Set NoMatchFound Value</a>
+					<input type="text" name="NoMatchFound" size=24>
+					
+				</p>
+				<p>
+					<a href="#" class="button" onclick="IsClientInstalled()" title="True=Installed<hr />False=Not Installed">Is BioPlugin Installed</a>
+					<a href="#" class="button" onclick="IsClientRunning()" title="True=Process Found<hr />False=Process Not Found">Is BioPlugin Running</a>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="ScannerStatus()" title="Will Return Current Device Status<hr />SCANNER_FOUND">Get Scanner Status</a>
+					<a href="#" class="button" onclick="ScannerCount()" title="Will Return Number Of Currently Connected Devices">Get Scanner Count</a>
+					<a href="#" class="button" onclick="ListScanners()" title="Will Return Scanner ID/LID">Get Scanner List</a>
+				</p>
+			</div>
+			<div id="TabBiometrics">
+				<p>
+					<a href="#" class="button" onclick="Register()" title="Register Two Features<br />Three Times Each">Register</a>
+					<a href="#" class="button" onclick="RegisterShort()" title="Register Two Features<br />One Time Each">Register Short</a>
+					<a href="#" class="button" onclick="RegisterSingle()" title="Register One Feature<br />Three Times">Register Single</a>
+					<a href="#" class="button" onclick="RegisterSingleShort()" title="Register One Feature<br />One Time">Register Single Short</a>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="Update()" title="Update Two Features<br />Three Times Each">Update</a>
+					<a href="#" class="button" onclick="UpdateShort()" title="Update Two Features<br />One Time Each">Update Short</a>
+					<a href="#" class="button" onclick="UpdateSingle()" title="Update One Feature<br />Three Times">Update Single</a>
+					<a href="#" class="button" onclick="UpdateSingleShort()" title="Update One Feature<br />One Time">Update Single Short</a>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="IsRegistered()" title="DUPLICATE_FOUND=Registered<br />DUPLICATE_NOTFOUND=Not Registered">Is Registered?</a>
+					<a href="#" class="button" onclick="ChangeID()" title="Change The Current ID, Biometric Data Remains">Change ID</a>
+					<a href="#" class="button" onclick="DeleteID()" title="Delete Current ID, Biometric Data Deleted">Delete ID</a>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="Verify()" title="Verify Two Features">Verify</a>
+					<a href="#" class="button" onclick="VerifySingle()" title="Verify One Feature">Verify Single</a>
+					<a href="#" class="button" onclick="VerifyQuick()" title="Active Verify Single">Verify Quick</a>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="Identify()" title="Identify Two Features, Three Times Each">Identify</a>
+					<a href="#" class="button" onclick="IdentifyQuick()" title="Identify One Feature, One Time">Identify Quick</a>
+				</p>
+				<p>
+					<a href="#" class="button" onclick="StartScanning()" title="Start Active Identify Process<hr />Stays Active Until Stopped">Start Identify Single</a>
+					<a href="#" class="button" onclick="StopScanning()" title="Stop Current Scanning Process<hr />Not Just For Identify">Stop Identify Single</a>
+				</p>
+			</div>
+			<div id="TabAbout">
+				<p>For more information about our biometric products, please visit our <a href="http://www.m2sys.com/" target="_blank">website</a></p>
+				<hr/>
+				<p><a href="http://support.m2sys.com/bin/bioplugin_demo.htm" class="button" target="_blank">Original BioPlugin Demo</a></p>
+				<hr />
+				<p>Powered By:
+					<a href="http://www.jquery.com/" class="button" target="_blank" title="jQuery Framework">jQuery</a>
+					<a href="http://flowplayer.org/tools/" class="button" target="_blank" title="jQuery Tools<hr />Tabs, Tooltips and Forms">jQuery Tools</a>
+					<a href="http://trentrichardson.com/impromptu/" class="button" target="_blank" title="jQuery Impromtu<hr />More Advanced User Prompting">Impromptu</a>
+					<a href="css3buttons.html" class="button" target="_blank" title="CSS3-Based Buttons">CSS3 Buttons</a>
+				</p>
+			</div>
+		</div>
+		<!--Text Fields For Data Input/Output/Debug-->
+		<div id="IO">
+			<p><input type="text" name="Input" size=80></p>
+			<p id="Output"></p>
+		</div>
+		<!--Javascript-->
+		<script>
+			$(function(){
+				$(".Tabs:first").tabs(".TabContents:first>div");
+				$("[title]").tooltip({delay:0,predelay:1000});
+				$("[rel]").overlay();
+			});
+			function BioPlugInActX::OnCapture(){
+				document.getElementById("Output").innerHTML="OnCapture Result="+BioPlugInActX.result;
+			}
+			function BioPlugInActX::OnConfiguration(){
+				document.getElementById("Output").innerHTML="OnConfiguration Result="+BioPlugInActX.result;
+			}
+			function BioPlugInActX::OnChange(){
+				document.getElementById("Output").innerHTML="OnChange Result="+BioPlugInActX.result;
+			}
+			function BioPlugInActX::OnDelete(){
+				document.getElementById("Output").innerHTML="OnDelete Result="+BioPlugInActX.result;
+			}
+			function BioPlugInActX::OnIdentify(){
+				document.getElementById("Output").innerHTML="OnIdentify Result="+BioPlugInActX.result;
+				if (debug.checked==1)
+					document.getElementById("Output").innerHTML="OnIdentify Debug="+BioPlugInActX.result+"/"+BioPlugInActX.RegistrationNo;
+			}
+			function BioPlugInActX::OnVerify(){
+				document.getElementById("Output").innerHTML="OnVerify Result="+BioPlugInActX.result;
+			}
+			function BioPlugInActX::OnRegister(){
+				document.getElementById("Output").innerHTML="OnRegister Result="+BioPlugInActX.result;
+			}
+			function BioPlugInActX::OnScan(){
+				document.getElementById("Output").innerHTML="OnScan Result="+BioPlugInActX.result;
+			}
+			function BioPlugInActX::OnScannerStatus(){
+				document.getElementById("Output").innerHTML="OnScannerStatus Result="+BioPlugInActX.result;
+			}
+		</script>
+	</body>
+</html>
